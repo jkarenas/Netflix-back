@@ -12,9 +12,9 @@ const {DB_USER,DB_PASSWORD,DB_HOST,DB_NAME}= process.env
   native: false, 
 });
 
-studentModel(sequelize)
+const Student = studentModel(sequelize)
 
 module.exports={
    conn: sequelize,
-
+   Student: Student, 
 }
