@@ -1,0 +1,12 @@
+.createStudentForm{
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    width:100%;
+    background-color: blueviolet;
+
+}
+.createStudentForm input {
+    border-radius: 3rem;
+}

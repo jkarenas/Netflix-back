@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Student CRUD App</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <h1>Student CRUD App</h1>
+
+  <h2>Create Student</h2>
+  <form class='createStudentForm' id="createStudentForm">
+    <label for="nombre">Name:</label>
+    <input type="text" id="nombre" name="nombre" required>
+    <label for="nota1">Nota 1:</label>
+    <input type="number" id="nota1" name="nota1" required>
+    <label for="nota2">Nota 2:</label>
+    <input type="number" id="nota2" name="nota2" required>
+    <label for="nota3">Nota 3:</label>
+    <input type="number" id="nota3" name="nota3" required>
+    <label for="nota4">Nota 4:</label>
+    <input type="number" id="nota4" name="nota4" required>    
+    <button type="submit">Create</button>
+  </form>
+
+  <h2>Students List</h2>
+  <ul id="studentsList"></ul>
+
+  <h2>Update Student</h2>
+  <form id="updateStudentForm">
+    <label for="updateId">Student ID:</label>
+    <input type="number" id="updateId" name="id" >
+
+    <label for="updateName">Name:</label>
+    <input type="text" id="name" name="name">
+
+    <label for="nota1">Note 1:</label>
+    <input type="number" id="nota1" name="nota1">
+    
+    <label for="nota2">Note 2:</label>
+    <input type="number" id="nota2" name="nota2">
+    
+    <label for="nota3">Note 3:</label>
+    <input type="number" id="nota3" name="nota3">
+
+    <label for="nota4">Note 4:</label>
+    <input type="number" id="nota4" name="nota4">
+
+    <button type="submit">Update</button>
+  </form>
+
+  <h2>Delete Student</h2>
+  <form id="deleteStudentForm">
+    <label for="deleteId">Student ID:</label>
+    <input type="number" id="deleteId" name="id" required>
+    <button type="submit">Delete</button>
+  </form>
+
+  <script>
+    // Function to display students
+    const displayStudents = async () => {
+      const studentsList = document.getElementById('studentsList');
+      studentsList.innerHTML = ''; // Clear previous list
+
+      try {
+        const response = await fetch('http://localhost:3003/students/read'); // Assuming your API endpoint is '/api/students'
+        
+        const students = await response.json();
+        console.log(students)
+        students.forEach(student => {
+          const li = document.createElement('li');
+          li.textContent = `ID: ${student.id}, name: ${student.nombre}, Nota 1: ${student.nota1}, Nota 2: ${student.nota2}, Nota 3: ${student.nota3}, Nota 4: ${student.nota4}`;
+          studentsList.appendChild(li);
+        });
+      } catch (error) {
+        console.error('Error fetching students:', error);
+      }
+    };
+
+// Function to handle form submission for creating a new student
+const createStudent = async (event) => {
+  event.preventDefault();
+
+  const form = event.target;
+  const nombre = form.querySelector('#nombre').value.trim();
+  const nota1 = form.querySelector('#nota1').value.trim();
+  const nota2 = form.querySelector('#nota2').value.trim();
+  const nota3 = form.querySelector('#nota3').value.trim();
+  const nota4 = form.querySelector('#nota4').value.trim();
+
+
+  const data = {
+    nombre: nombre,
+    nota1: parseInt(nota1),
+    nota2: parseInt(nota2),
+    nota3: parseInt(nota3),
+    nota4: parseInt(nota4)
+  };
+console.log(data)
+  try {
+    const response = await fetch('http://localhost:3003/students/create', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    });
+
+    if (response.ok) {
+      form.reset();
+      displayStudents(); // Refresh the student list
+    } else {
+      const errorMessage = await response.json();
+      console.error('Failed to create student:', errorMessage);
+    }
+  } catch (error) {
+    console.error('Error creating student:', error);
+  }
+};
+
+
+
+// Function to handle form submission for updating a student
+const updateStudent = async (event) => {
+  event.preventDefault();
+
+  const form = event.target;
+  const id = form.querySelector('#updateId').value.trim();
+  const name = form.querySelector('#name').value.trim();
+  const nota1 = form.querySelector('#nota1').value.trim();
+  const nota2 = form.querySelector('#nota2').value.trim();
+  const nota3 = form.querySelector('#nota3').value.trim();
+  const nota4 = form.querySelector('#nota4').value.trim();
+
+  // Check if any required field is empty
+  if (!id || !name || !nota1 || !nota2 || !nota3 || !nota4) {
+    console.error('Please fill out all fields');
+    return;
+  }
+
+  const data = {
+    nombre: name,
+    nota1: parseInt(nota1),
+    nota2: parseInt(nota2),
+    nota3: parseInt(nota3),
+    nota4: parseInt(nota4)
+  };
+
+  try {
+    const response = await fetch(`http://localhost:3003/students/update/${id}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    });
+
+    if (response.ok) {
+      form.reset();
+      displayStudents(); // Refresh the student list
+    } else {
+      const errorMessage = await response.json();
+      console.error('Failed to update student:', errorMessage);
+    }
+  } catch (error) {
+    console.error('Error updating student:', error);
+  }
+};
+
+
+    // Function to handle form submission for deleting a student
+    const deleteStudent = async (event) => {
+      event.preventDefault();
+
+      const form = event.target;
+      const formData = new FormData(form);
+
+      try {
+        const response = await fetch(`http://localhost:3003/students/delete/${formData.get('id')}`, {
+          method: 'DELETE',
+        });
+        console.log(response)
+        if (response.ok) {
+          form.reset();
+          displayStudents(); // Refresh the student list
+        } else {
+          const errorMessage = await response.json();
+          console.error('Failed to delete student:', errorMessage);
+        }
+      } catch (error) {
+        console.error('Error deleting student:', error);
+      }
+    };
+
+    // Attach event listeners for form submissions
+    const createStudentForm = document.getElementById('createStudentForm');
+    createStudentForm.addEventListener('submit', createStudent);
+
+    const updateStudentForm = document.getElementById('updateStudentForm');
+    updateStudentForm.addEventListener('submit', updateStudent);
+
+    const deleteStudentForm = document.getElementById('deleteStudentForm');
+    deleteStudentForm.addEventListener('submit', deleteStudent);
+
+    // Initial display of students
+    displayStudents();
+  </script>
+
+</body>
+</html>
