@@ -16,6 +16,7 @@
 
       <h2>Students List</h2>
       <div class="sin_marcadores">
+  
         <ul class="studentsList" id="studentsList"></ul>
       </div>
 
@@ -98,7 +99,7 @@
 
       <h2>Delete Student</h2>
       <form class="deleteStudentForm" id="deleteStudentForm">
-        <label for="deleteId">Student ID:</label>
+        <label for="deleteId"> ID:</label>
         <input type="number" id="deleteId" name="id" required>
         <button type="submit">Delete</button>
       </form>
@@ -120,9 +121,20 @@
         console.log(students)
         students.forEach(student => {
           const li = document.createElement('li');
-          li.innerHTML = `ID: ${student.id}<br>Name: ${student.nombre}<br>Nota 1: ${student.nota1}<br>Nota 2: ${student.nota2}<br>Nota 3: ${student.nota3}<br>Nota 4: ${student.nota4}`;
 
+
+          li.innerHTML = `
+        <div class="promedio">⭐Rating:${student.promedio}</div>
+        <p class="idName">ID: ${student.id}</p>
+        <p class="idName">Name: ${student.nombre}</p>
+        <p class="notes">Nota 1: ${student.nota1}</p>
+        <p class="notes">Nota 2: ${student.nota2}</p>
+        <p class="notes">Nota 3: ${student.nota3}</p>
+        <p class="notes">Nota 4: ${student.nota4}</p>
+      `;
           studentsList.appendChild(li);
+
+    
         });
       } catch (error) {
         console.error('Error fetching students:', error);
@@ -184,19 +196,29 @@
       const nota3 = form.querySelector('#nota3').value.trim();
       const nota4 = form.querySelector('#nota4').value.trim();
 
-      // Check if any required field is empty
-      if (!id || !name || !nota1 || !nota2 || !nota3 || !nota4) {
-        console.error('Please fill out all fields');
-        return;
-      }
 
-      const data = {
-        nombre: name,
-        nota1: parseInt(nota1),
-        nota2: parseInt(nota2),
-        nota3: parseInt(nota3),
-        nota4: parseInt(nota4)
-      };
+
+      const data = {};
+
+if (name !== '') {
+  data.nombre = name;
+}
+
+if (nota1 !== '') {
+  data.nota1 = parseInt(nota1);
+}
+
+if (nota2 !== '') {
+  data.nota2 = parseInt(nota2);
+}
+
+if (nota3 !== '') {
+  data.nota3 = parseInt(nota3);
+}
+
+if (nota4 !== '') {
+  data.nota4 = parseInt(nota4);
+}
 
       try {
         const response = await fetch(`http://localhost:3003/students/update/${id}`, {

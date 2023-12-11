@@ -56,6 +56,28 @@ display: grid;
 background-color:#b6ad90;
 border-radius: 8px;
 padding: 15px 15px 15px 40px;
+
+}
+.promedio{
+    background-color: #c2c5aa;
+    border-radius: 4px;
+    display: flex;
+    justify-self: flex-end;
+    width:60%;
+    height :150%;
+    align-items: center;
+    box-shadow: 2px 2px 3px 1px rgb(136, 133, 133);
+}
+.notes{
+    background-color:white;
+    border-radius: 4px;
+    width:70%;
+    margin: 3px 0 0 0;
+    font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif
+}
+.idName{
+    margin-bottom: 1px;
+    margin-top: 1px;
 }
 
 .container_derecha{
@@ -71,7 +93,7 @@ padding: 15px 15px 15px 40px;
     margin-left: 15px;
 }
 .nombre input{
-    width: 300px;
+    width: 210px;
 }
 .notas{
     display: grid;
@@ -88,10 +110,7 @@ padding: 15px 15px 15px 40px;
     padding: 15px;
     gap:15px
 }
-.updateStudentForm button {
-    width: 80px;
-    height: 35px;
-}
+
 .deleteStudentForm {
     background-color: #a68a64;
     border-radius: 8px;
@@ -99,7 +118,7 @@ padding: 15px 15px 15px 40px;
     display: flex;
     align-items: center;
     padding-left: 15px;
-    
+    padding-right: 30px;
 }
 
 .nombre_id{
@@ -123,5 +142,31 @@ padding: 15px 15px 15px 40px;
 .boton_update{
     display: flex;
     align-self: center;
+    
+}
+.updateStudentForm button {
+    width: 80px;
+    height: 35px;
+}
 
+.deleteStudentForm button {
+    margin-left: 14px;
+}
+
+.createStudentForm button:hover  {
+    background-color: #582f0e;
+    transition: background-color 0.8s ease, color 0.8s ease, font-size 0.8s ease;
+    color: white;
+    font-size: 15px;
+}
+.updateStudentForm button:hover  {
+    background-color: #582f0e;
+    transition: background-color 0.8s ease, color 0.8s ease, font-size 0.8s ease;
+    color: white;
+    font-size: 15px;
+}
+.deleteStudentForm button:hover {
+    background-color: rgb(235, 84, 84);
+    color:white;
+    
 }
