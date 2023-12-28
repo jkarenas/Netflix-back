@@ -1,7 +1,7 @@
 const {Sequelize,DataTypes} = require ("sequelize")
 require("dotenv").config()
 
-const studentModel=require("./models/Students")
+const movieModel=require("./models/Movies")
 
 const {DB_USER,DB_PASSWORD,DB_HOST,DB_NAME}= process.env
 
@@ -12,9 +12,9 @@ const {DB_USER,DB_PASSWORD,DB_HOST,DB_NAME}= process.env
   native: false, 
 });
 
-const Student = studentModel(sequelize)
+const Movie = movieModel(sequelize)
 
 module.exports={
    conn: sequelize,
-   Student: Student, 
+   Movie: Movie, 
 }

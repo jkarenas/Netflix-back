@@ -1,10 +1,9 @@
 const express = require("express")
-const { createStudent, getStudents,updateStudent, deleteStudent } = require("../controlllers/crud")
+const { addFavorite, getFavorites, deleteFavorite } = require("../controlllers/movies")
 
 const router = express.Router()
 
-router.post("/create", createStudent)
-router.get("/read", getStudents)
-router.put("/update/:id", updateStudent)
-router.delete("/delete/:id", deleteStudent)
+router.post("/create", addFavorite)
+router.get("/read", getFavorites)
+router.delete("/delete/:id", deleteFavorite)
 module.exports = router
