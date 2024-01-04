@@ -1,14 +1,14 @@
 const {Movie} = require('../db');
 
 const addFavorite = async (req, res) => {
-  const { id, backdrop_path, poster_path, title } = req.body;
-    console.log(req.body)
+  const { id, backdrop_path, poster_path, title: movieTitle, name: movieName } = req.body;
+    console.log("data in controller",req.body)
   try {
     const newFavorite = await Movie.create({
       id: id,
       backdrop_path: backdrop_path,
       poster_path: poster_path,
-      title: title
+      title: movieName || movieTitle
     });
 
     return res.status(201).json({ success: true, message: 'Movie added to favorites', data: newFavorite });
